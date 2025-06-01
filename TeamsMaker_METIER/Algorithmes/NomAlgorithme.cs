@@ -12,7 +12,8 @@ namespace TeamsMaker_METIER.Algorithmes
     public enum NomAlgorithme
     {
         ALGOTEST,
-        GLOUTONCOIRSSANT
+        GLOUTONCOIRSSANT,
+        ROLEADAPTATIF
     }
 
 
@@ -30,6 +31,7 @@ namespace TeamsMaker_METIER.Algorithmes
             {
                 case NomAlgorithme.ALGOTEST: res = "Algorithme de test (à supprimer)"; break;
                 case NomAlgorithme.GLOUTONCOIRSSANT: res = "Algo glouton"; break;
+                case NomAlgorithme.ROLEADAPTATIF: res = "Algo adaptatif par rôle"; break;
             }
             return res;
         }

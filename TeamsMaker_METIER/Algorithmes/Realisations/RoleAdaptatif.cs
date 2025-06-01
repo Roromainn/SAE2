@@ -26,8 +26,8 @@ namespace TeamsMaker_METIER.Algorithmes.Realisations
                 Equipe equipe = new Equipe();
 
                 // Trouver tank
-                Personnage tank = remaining.Find(p => p.RolePrincipal == Role.Tank);
-                if (tank == null) tank = remaining.Find(p => p.RoleSecondaire == Role.Tank);
+                Personnage tank = remaining.Find(p => p.RolePrincipal == Role.TANK);
+                if (tank == null) tank = remaining.Find(p => p.RoleSecondaire == Role.TANK);
                 if (tank != null)
                 {
                     equipe.AjouterMembre(tank);
@@ -35,8 +35,8 @@ namespace TeamsMaker_METIER.Algorithmes.Realisations
                 }
 
                 // Trouver support
-                Personnage support = remaining.Find(p => p.RolePrincipal == Role.Support);
-                if (support == null) support = remaining.Find(p => p.RoleSecondaire == Role.Support);
+                Personnage support = remaining.Find(p => p.RolePrincipal == Role.SUPPORT);
+                if (support == null) support = remaining.Find(p => p.RoleSecondaire == Role.SUPPORT);
                 if (support != null)
                 {
                     equipe.AjouterMembre(support);
@@ -53,7 +53,7 @@ namespace TeamsMaker_METIER.Algorithmes.Realisations
                     remaining.Remove(dpsList[1]);
                 }
 
-                if (equipe.Membres.Count == 4)
+                if (equipe.Membres.Length == 4)
                 {
                     repartition.AjouterEquipe(equipe);
                 }
@@ -66,8 +66,8 @@ namespace TeamsMaker_METIER.Algorithmes.Realisations
 
         private bool CanFormTeam(List<Personnage> remaining)
         {
-            bool hasTank = remaining.Exists(p => p.RolePrincipal == Role.Tank || p.RoleSecondaire == Role.Tank);
-            bool hasSupport = remaining.Exists(p => p.RolePrincipal == Role.Support || p.RoleSecondaire == Role.Support);
+            bool hasTank = remaining.Exists(p => p.RolePrincipal == Role.TANK || p.RoleSecondaire == Role.TANK);
+            bool hasSupport = remaining.Exists(p => p.RolePrincipal == Role.SUPPORT || p.RoleSecondaire == Role.SUPPORT);
             int dpsCount = remaining.Count(p => p.RolePrincipal == Role.DPS || p.RoleSecondaire == Role.DPS);
             return hasTank && hasSupport && dpsCount >= 2;
         }
