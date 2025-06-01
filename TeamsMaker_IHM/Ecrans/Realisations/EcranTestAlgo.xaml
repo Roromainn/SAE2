@@ -1,0 +1,61 @@
+﻿<ecrans:Ecran  xmlns:ecrans="clr-namespace:TeamsMaker_IHM.Ecrans"
+               x:Class="TeamsMaker_IHM.Ecrans.Realisations.EcranTestAlgo"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TeamsMaker_IHM.Ecrans.Realisations"
+             mc:Ignorable="d" 
+             d:DesignHeight="900" d:DesignWidth="1600">
+    <Viewbox>
+        <Grid Height="900" Width="1600" Background="#f6f6f6">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <ScrollViewer x:Name="ZoneAffichage">
+                <StackPanel>
+                    <StackPanel x:Name="StackEquipes">
+                        
+                    </StackPanel>
+                    <WrapPanel x:Name="WrapPersonnage" HorizontalAlignment="Center">
+
+                    </WrapPanel>
+                </StackPanel>
+            </ScrollViewer>
+            <Border Grid.Column="1" Background="#a6a6a6">
+                <DockPanel>
+                    <Button DockPanel.Dock="Bottom" FontSize="35" Margin="20" IsEnabled="{Binding IsAlgorithmeSelectionne}" Click="LancerCalcul">Lancer l'algorithme</Button>
+                    <StackPanel Margin="20">
+                        <DockPanel>
+                            <Image x:Name="ImageMode" Height="55" DockPanel.Dock="Left"/>
+                            <TextBlock TextAlignment="Left" FontSize="35" Margin="20,10,0,10">Problème :</TextBlock>
+                        </DockPanel>
+                        <ComboBox x:Name="ComboProbleme" Height="35" Margin="0,10,10,50" FontSize="20" ItemsSource="{Binding ListNomProblemes}" SelectionChanged="SelectionProbleme"></ComboBox>
+
+                        <DockPanel>
+                            <Image x:Name="ImageJeuDeTest" Height="55" DockPanel.Dock="Left"/>
+                            <TextBlock TextAlignment="Left" FontSize="35" Margin="20,10,0,10">Jeu de test :</TextBlock>
+                        </DockPanel>
+                        <ComboBox Height="35" Margin="0,10,10,50" FontSize="20" ItemsSource="{Binding ListNomFichiersJeuTest}" SelectedItem="{Binding NomFichierJeuTest, Mode=TwoWay}" IsEnabled="{Binding IsProblemeSelectionne}" SelectionChanged="SelectionJeuTest"></ComboBox>
+
+                        <DockPanel>
+                            <Image x:Name="ImageAlgorithme" Height="55" DockPanel.Dock="Left"/>
+                             <TextBlock TextAlignment="Left" FontSize="35" Margin="20,10,0,10">Algorithme :</TextBlock>
+                        </DockPanel>
+                        <ComboBox x:Name="ComboAlgorithme" Height="35" Margin="0,10,10,50" FontSize="20" ItemsSource="{Binding ListeAlgorithmes}" IsEnabled="{Binding IsJeuTestSelectionne}" SelectionChanged="SelectionAlgorithme"></ComboBox>
+
+                        <StackPanel x:Name="DockScore" Visibility="Hidden">
+                            <DockPanel Margin="0,40,0,0">
+                                <Image x:Name="ImageScore" Height="55" DockPanel.Dock="Left"/>
+                                <TextBlock TextAlignment="Left" FontSize="35" Margin="20,10,0,10">Score répartition</TextBlock>
+                            </DockPanel>
+                            <TextBlock x:Name="Score" FontSize="75" TextAlignment="Center"></TextBlock>
+                        </StackPanel>
+
+                    </StackPanel>
+                </DockPanel>
+            </Border>
+        </Grid>
+    </Viewbox>
+</ecrans:Ecran>

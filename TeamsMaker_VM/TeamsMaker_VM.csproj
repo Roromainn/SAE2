@@ -1,0 +1,54 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Ressources\Images\Personnages\Archer.png" />
+    <None Remove="Ressources\Images\Personnages\Barbarian.png" />
+    <None Remove="Ressources\Images\Personnages\Bard.png" />
+    <None Remove="Ressources\Images\Personnages\Cleric.png" />
+    <None Remove="Ressources\Images\Personnages\Druid.png" />
+    <None Remove="Ressources\Images\Personnages\Mage.png" />
+    <None Remove="Ressources\Images\Personnages\Monk.png" />
+    <None Remove="Ressources\Images\Personnages\Paladin.png" />
+    <None Remove="Ressources\Images\Personnages\Thief.png" />
+    <None Remove="Ressources\Images\Personnages\Warlock.png" />
+    <None Remove="Ressources\Images\Personnages\Warrior.png" />
+    <None Remove="Ressources\Images\Personnages\Wizard.png" />
+    <None Remove="Ressources\Images\Pictogrammes\Algorithme.png" />
+    <None Remove="Ressources\Images\Pictogrammes\Equipe.png" />
+    <None Remove="Ressources\Images\Pictogrammes\Fonction.png" />
+    <None Remove="Ressources\Images\Pictogrammes\Probleme.png" />
+    <None Remove="Ressources\Images\Pictogrammes\Score.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TeamsMaker_METIER\TeamsMaker_METIER.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Ressources\Images\Personnages\Archer.png" />
+    <Resource Include="Ressources\Images\Personnages\Barbarian.png" />
+    <Resource Include="Ressources\Images\Personnages\Bard.png" />
+    <Resource Include="Ressources\Images\Personnages\Cleric.png" />
+    <Resource Include="Ressources\Images\Personnages\Druid.png" />
+    <Resource Include="Ressources\Images\Personnages\Mage.png" />
+    <Resource Include="Ressources\Images\Personnages\Monk.png" />
+    <Resource Include="Ressources\Images\Personnages\Paladin.png" />
+    <Resource Include="Ressources\Images\Personnages\Thief.png" />
+    <Resource Include="Ressources\Images\Personnages\Warlock.png" />
+    <Resource Include="Ressources\Images\Personnages\Warrior.png" />
+    <Resource Include="Ressources\Images\Personnages\Wizard.png" />
+    <Resource Include="Ressources\Images\Pictogrammes\Algorithme.png" />
+    <Resource Include="Ressources\Images\Pictogrammes\Equipe.png" />
+    <Resource Include="Ressources\Images\Pictogrammes\Fonction.png" />
+    <Resource Include="Ressources\Images\Pictogrammes\Probleme.png" />
+    <Resource Include="Ressources\Images\Pictogrammes\Score.png" />
+  </ItemGroup>
+
+</Project>
