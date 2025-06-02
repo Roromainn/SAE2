@@ -25,7 +25,7 @@ namespace TeamsMaker_METIER.Algorithmes.Realisations
             {
                 Equipe equipe = new Equipe();
 
-                // 1. Tank le plus proche du niveau cible
+                //Tank le plus proche du niveau 50
                 Personnage tank = null;
                 int meilleurScoreTank = int.MaxValue;
 
