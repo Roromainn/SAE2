@@ -7,12 +7,28 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="JeuxTest\Fichiers\RoleAdaptatif.jt" />
     <None Remove="JeuxTest\Fichiers\Test.jt" />
+    <None Remove="JeuxTest\Fichiers\Test2.jt" />
+    <None Remove="JeuxTest\Fichiers\test_data_10k.jt" />
+    <None Remove="JeuxTest\Fichiers\test_data_1k.jt" />
     <None Remove="JeuxTest\Fichiers\Vide.jt" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="JeuxTest\Fichiers\RoleAdaptatif.jt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="JeuxTest\Fichiers\Test.jt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="JeuxTest\Fichiers\Test2.jt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="JeuxTest\Fichiers\test_data_10k.jt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="JeuxTest\Fichiers\test_data_1k.jt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="JeuxTest\Fichiers\Vide.jt">
