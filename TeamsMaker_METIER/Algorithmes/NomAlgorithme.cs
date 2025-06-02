@@ -13,7 +13,8 @@ namespace TeamsMaker_METIER.Algorithmes
     {
         ALGOTEST,
         GLOUTONCOIRSSANT,
-        ROLEADAPTATIF
+        ROLEADAPTATIF,
+        ROLESTRAT
     }
 
 
@@ -32,6 +33,7 @@ namespace TeamsMaker_METIER.Algorithmes
                 case NomAlgorithme.ALGOTEST: res = "Algorithme de test (à supprimer)"; break;
                 case NomAlgorithme.GLOUTONCOIRSSANT: res = "Algo glouton"; break;
                 case NomAlgorithme.ROLEADAPTATIF: res = "Algo adaptatif par rôle"; break;
+                case NomAlgorithme.ROLESTRAT: res = "Algo stratifié par role"; break;
             }
             return res;
         }
