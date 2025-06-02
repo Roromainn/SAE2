@@ -13,7 +13,6 @@ namespace TeamsMaker_METIER.Algorithmes.Realisations
     internal class RoleAdaptatif : Algorithme
     {
         private const double NIVEAU_CIBLE = 50.0;
-        private const double TOLERANCE = 5.0; // Tolérance pour le niveau moyen
 
         public override Repartition Repartir(JeuTest jeuTest)
         {
@@ -23,24 +22,21 @@ namespace TeamsMaker_METIER.Algorithmes.Realisations
             Repartition repartition = new Repartition(jeuTest);
             List<Personnage> remaining = new List<Personnage>(jeuTest.Personnages);
 
-            // Tri des personnages par niveau pour optimiser les combinaisons
-            remaining = remaining.OrderBy(p => Math.Abs(p.LvlPrincipal - NIVEAU_CIBLE)).ToList();
-
             while (CanFormTeam(remaining))
             {
-                Equipe meilleureEquipe = TrouverMeilleureEquipe(remaining);
-                if (meilleureEquipe != null && meilleureEquipe.Membres.Length == 4)
+                Equipe equipe = FormerEquipeRapide(remaining);
+                if (equipe != null && equipe.Membres.Length == 4)
                 {
-                    repartition.AjouterEquipe(meilleureEquipe);
-                    // Retirer les membres de l'équipe de la liste
-                    foreach (var membre in meilleureEquipe.Membres)
+                    repartition.AjouterEquipe(equipe);
+                    // Retirer les membres de l'équipe
+                    foreach (var membre in equipe.Membres)
                     {
                         remaining.Remove(membre);
                     }
                 }
                 else
                 {
-                    break; // Plus possible de former une équipe optimale
+                    break;
                 }
             }
 
@@ -49,85 +45,93 @@ namespace TeamsMaker_METIER.Algorithmes.Realisations
             return repartition;
         }
 
-        private Equipe TrouverMeilleureEquipe(List<Personnage> remaining)
+        private Equipe FormerEquipeRapide(List<Personnage> remaining)
         {
-            Equipe meilleureEquipe = null;
-            double meilleurScore = double.MaxValue;
-
-            // Récupérer tous les candidats par rôle
-            var tanks = GetPersonnagesParRole(remaining, Role.TANK);
-            var supports = GetPersonnagesParRole(remaining, Role.SUPPORT);
-            var dps = GetPersonnagesParRole(remaining, Role.DPS);
-
-            if (tanks.Count == 0 || supports.Count == 0 || dps.Count < 2)
-                return null;
-
-            // Tester toutes les combinaisons possibles (optimisé)
-            foreach (var tank in tanks.Take(Math.Min(tanks.Count, 5))) // Limiter pour performance
+            // Trouver tank
+            Personnage tank = null;
+            for (int i = 0; i < remaining.Count; i++)
             {
-                foreach (var support in supports.Take(Math.Min(supports.Count, 5)))
+                if (remaining[i].RolePrincipal == Role.TANK)
                 {
-                    // Prendre les 2 meilleurs DPS pour cette combinaison tank/support
-                    var dpsOptimaux = TrouverMeilleursDPS(dps, tank, support);
-
-                    if (dpsOptimaux.Count >= 2)
+                    tank = remaining[i];
+                    break;
+                }
+            }
+            if (tank == null)
+            {
+                for (int i = 0; i < remaining.Count; i++)
+                {
+                    if (remaining[i].RoleSecondaire == Role.TANK)
                     {
-                        for (int i = 0; i < dpsOptimaux.Count - 1; i++)
-                        {
-                            for (int j = i + 1; j < Math.Min(dpsOptimaux.Count, i + 6); j++) // Limiter les combinaisons
-                            {
-                                Equipe equipe = new Equipe();
-                                equipe.AjouterMembre(tank);
-                                equipe.AjouterMembre(support);
-                                equipe.AjouterMembre(dpsOptimaux[i]);
-                                equipe.AjouterMembre(dpsOptimaux[j]);
-
-                                double score = EvaluerEquipe(equipe);
-                                if (score < meilleurScore)
-                                {
-                                    meilleurScore = score;
-                                    meilleureEquipe = equipe;
-                                }
-                            }
-                        }
+                        tank = remaining[i];
+                        break;
                     }
                 }
             }
 
-            return meilleureEquipe;
-        }
+            // Trouver support
+            Personnage support = null;
+            for (int i = 0; i < remaining.Count; i++)
+            {
+                if (remaining[i].RolePrincipal == Role.SUPPORT)
+                {
+                    support = remaining[i];
+                    break;
+                }
+            }
+            if (support == null)
+            {
+                for (int i = 0; i < remaining.Count; i++)
+                {
+                    if (remaining[i].RoleSecondaire == Role.SUPPORT)
+                    {
+                        support = remaining[i];
+                        break;
+                    }
+                }
+            }
 
-        private List<Personnage> GetPersonnagesParRole(List<Personnage> personnages, Role role)
-        {
-            return personnages
-                .Where(p => p.RolePrincipal == role || p.RoleSecondaire == role)
-                .OrderBy(p => p.RolePrincipal == role ? 0 : 1) // Prioriser rôle principal
-                .ThenBy(p => Math.Abs(p.LvlPrincipal - NIVEAU_CIBLE))
-                .ToList();
-        }
+            if (tank == null || support == null) return null;
 
-        private List<Personnage> TrouverMeilleursDPS(List<Personnage> dps, Personnage tank, Personnage support)
-        {
-            double niveauMoyenActuel = (tank.LvlPrincipal + support.LvlPrincipal) / 2.0;
-            double niveauCibleDPS = (NIVEAU_CIBLE * 4 - tank.LvlPrincipal - support.LvlPrincipal) / 2.0;
+            // Trouver 2 DPS (on prend les 2 premiers disponibles)
+            List<Personnage> dps = new List<Personnage>();
+            for (int i = 0; i < remaining.Count && dps.Count < 2; i++)
+            {
+                if (remaining[i] != tank && remaining[i] != support)
+                {
+                    if (remaining[i].RolePrincipal == Role.DPS || remaining[i].RoleSecondaire == Role.DPS)
+                    {
+                        dps.Add(remaining[i]);
+                    }
+                }
+            }
 
-            return dps.OrderBy(p => Math.Abs(p.LvlPrincipal - niveauCibleDPS)).ToList();
-        }
+            if (dps.Count < 2) return null;
 
-        private double EvaluerEquipe(Equipe equipe)
-        {
-            if (equipe.Membres.Length != 4) return double.MaxValue;
-            double niveauMoyen = equipe.Membres.Average(m => m.LvlPrincipal);
+            Equipe equipe = new Equipe();
+            equipe.AjouterMembre(tank);
+            equipe.AjouterMembre(support);
+            equipe.AjouterMembre(dps[0]);
+            equipe.AjouterMembre(dps[1]);
 
-            // Score basé uniquement sur la distance au niveau cible
-            return Math.Abs(niveauMoyen - NIVEAU_CIBLE);
+            return equipe;
         }
 
         private bool CanFormTeam(List<Personnage> remaining)
         {
-            bool hasTank = remaining.Exists(p => p.RolePrincipal == Role.TANK || p.RoleSecondaire == Role.TANK);
-            bool hasSupport = remaining.Exists(p => p.RolePrincipal == Role.SUPPORT || p.RoleSecondaire == Role.SUPPORT);
-            int dpsCount = remaining.Count(p => p.RolePrincipal == Role.DPS || p.RoleSecondaire == Role.DPS);
+            bool hasTank = false;
+            bool hasSupport = false;
+            int dpsCount = 0;
+
+            for (int i = 0; i < remaining.Count; i++)
+            {
+                if (remaining[i].RolePrincipal == Role.TANK || remaining[i].RoleSecondaire == Role.TANK)
+                    hasTank = true;
+                if (remaining[i].RolePrincipal == Role.SUPPORT || remaining[i].RoleSecondaire == Role.SUPPORT)
+                    hasSupport = true;
+                if (remaining[i].RolePrincipal == Role.DPS || remaining[i].RoleSecondaire == Role.DPS)
+                    dpsCount++;
+            }
 
             return hasTank && hasSupport && dpsCount >= 2;
         }
