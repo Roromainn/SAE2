@@ -8,7 +8,7 @@ using TeamsMaker_METIER.Personnages;
 
 namespace TeamsMaker_METIER.Algorithmes.Outils
 {
-    internal static class TeamViable
+    internal static class EquipeViable
     {
         public static bool FormationEquipe (List<Personnage> remaining)
         {

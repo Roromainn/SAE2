@@ -33,7 +33,7 @@ namespace TeamsMaker_METIER.Algorithmes
             {
                 case NomAlgorithme.GLOUTONCOIRSSANT: res = new AlgorithmeGloutonCroissant(); break;
                 case NomAlgorithme.ROLEADAPTATIF: res = new RoleAdaptatif(); break;
-                case NomAlgorithme.ROLESTRAT: res = new RoleStrat(); break;
+                case NomAlgorithme.ROLESTRAT: res = new RoleEtape(); break;
                 case NomAlgorithme.EXTREMESPREMIER: res = new AlgorithmeExtremesEnPremier(); break;
                 case NomAlgorithme.EQUILIBREPROGRESSIF: res = new AlgorithmeEquilibreProgressif(); break;
             }

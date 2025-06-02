@@ -11,7 +11,7 @@ namespace TeamsMaker_METIER.Algorithmes.Realisations
 {
     internal class RoleAdaptatif : Algorithme
     {
-        private const int NIVEAU_CIBLE = 50;
+        private const int NivDemande = 50;
 
         public override Repartition Repartir(JeuTest jeuTest)
         {
@@ -21,7 +21,7 @@ namespace TeamsMaker_METIER.Algorithmes.Realisations
             Repartition repartition = new Repartition(jeuTest);
             List<Personnage> remaining = new List<Personnage>(jeuTest.Personnages);
 
-            while (TeamViable.FormationEquipe(remaining))
+            while (EquipeViable.FormationEquipe(remaining))
             {
                 Equipe equipe = new Equipe();
 
@@ -29,18 +29,16 @@ namespace TeamsMaker_METIER.Algorithmes.Realisations
                 Personnage tank = null;
                 int meilleurScoreTank = int.MaxValue;
 
-                // Chercher tous les tanks disponibles
+                // Chercher tanks
                 for (int i = 0; i < remaining.Count; i++)
                 {
                     Personnage p = remaining[i];
 
-                    // Vérifier si c'est un tank (équivalent du Where)
+
                     if (p.RolePrincipal == Role.TANK || p.RoleSecondaire == Role.TANK)
                     {
-                        // Calculer la distance au niveau cible (équivalent d'OrderBy)
-                        int distance = Math.Abs(p.LvlPrincipal - NIVEAU_CIBLE);
+                        int distance = Math.Abs(p.LvlPrincipal - NivDemande);
 
-                        // Garder le meilleur tank trouvé (équivalent de FirstOrDefault)
                         if (distance < meilleurScoreTank)
                         {
                             meilleurScoreTank = distance;
@@ -53,7 +51,7 @@ namespace TeamsMaker_METIER.Algorithmes.Realisations
                 equipe.AjouterMembre(tank);
                 remaining.Remove(tank);
 
-                // 2. Support le plus proche du niveau cible
+                // Chercher support
                 Personnage support = null;
                 int meilleurScoreSupport = int.MaxValue;
 
@@ -63,7 +61,7 @@ namespace TeamsMaker_METIER.Algorithmes.Realisations
 
                     if (p.RolePrincipal == Role.SUPPORT || p.RoleSecondaire == Role.SUPPORT)
                     {
-                        int distance = Math.Abs(p.LvlPrincipal - NIVEAU_CIBLE);
+                        int distance = Math.Abs(p.LvlPrincipal - NivDemande);
 
                         if (distance < meilleurScoreSupport)
                         {
@@ -77,24 +75,23 @@ namespace TeamsMaker_METIER.Algorithmes.Realisations
                 equipe.AjouterMembre(support);
                 remaining.Remove(support);
 
-                // 3. Deux DPS les plus proches du niveau cible (SANS TRI COMPLET)
+                //Chercher les deux DPS 
                 Personnage meilleurDps1 = null;
                 Personnage meilleurDps2 = null;
                 int scoreDps1 = int.MaxValue;
                 int scoreDps2 = int.MaxValue;
 
-                // Un seul passage pour trouver les 2 meilleurs DPS
                 for (int i = 0; i < remaining.Count; i++)
                 {
                     Personnage p = remaining[i];
 
                     if (p.RolePrincipal == Role.DPS || p.RoleSecondaire == Role.DPS)
                     {
-                        int distance = Math.Abs(p.LvlPrincipal - NIVEAU_CIBLE);
+                        int distance = Math.Abs(p.LvlPrincipal - NivDemande);
 
                         if (distance < scoreDps1)
                         {
-                            // Nouveau meilleur : l'ancien meilleur devient le 2ème
+                            // Nouveau meilleur, l'ancien meilleur --> 2ème
                             meilleurDps2 = meilleurDps1;
                             scoreDps2 = scoreDps1;
                             meilleurDps1 = p;
@@ -124,6 +121,6 @@ namespace TeamsMaker_METIER.Algorithmes.Realisations
             return repartition;
         }
 
-        
+
     }
 }
