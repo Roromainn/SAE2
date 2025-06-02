@@ -7,9 +7,19 @@ using TeamsMaker_METIER.Personnages;
 
 namespace TeamsMaker_METIER.Algorithmes.Outils
 {
+    /// <summary>
+    /// Classe utilitaire pour former des paires de DPS à partir d'une liste de personnages.
+    /// </summary>
     internal static class Paire
     {
-        public  static Tuple<Personnage, Personnage> PaireDeDPS(List<Personnage> dps, int tankLevel, int supportLevel)
+        /// <summary>
+        /// Forme une paire de DPS à partir d'une liste de personnages, en cherchant la paire dont le niveau moyen est le plus proche de 50.
+        /// </summary>
+        /// <param name="dps">liste de DPS dispo</param>
+        /// <param name="tankLevel">niveau du tank</param>
+        /// <param name="supportLevel">niveau du support</param>
+        /// <returns>Tuple avec les 2 DPS qui conviennent a l'equipe</returns>
+        public static Tuple<Personnage, Personnage> PaireDeDPS(List<Personnage> dps, int tankLevel, int supportLevel)
         {
             if (dps.Count < 2)
                 return null;
@@ -19,6 +29,7 @@ namespace TeamsMaker_METIER.Algorithmes.Outils
 
             int limiteRecherche = Math.Min(20, dps.Count);
 
+            // Limiter la recherche aux 20 premiers DPS pour accelerer la recherche (déterminé de maniere empirique)
             for (int i = 0; i < limiteRecherche; i++)
             {
                 for (int j = i + 1; j < limiteRecherche; j++)

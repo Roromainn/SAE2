@@ -8,13 +8,39 @@ using TeamsMaker_METIER.Personnages;
 
 namespace TeamsMaker_METIER.Algorithmes.Outils
 {
+    /// <summary>
+    /// Classe utilitaire pour vérifier si une équipe est viable.
+    /// </summary>
     internal static class EquipeViable
     {
-        public static bool FormationEquipe (List<Personnage> remaining)
+        /// <summary>
+        /// Vérifie si une équipe est viable en fonction des rôles des personnages restants.
+        /// </summary>
+        /// <param name="restant">liste des personages restants</param>
+        /// <returns></returns>
+        public static bool FormationEquipe(List<Personnage> restant)
         {
-            bool hasTank = remaining.Exists(p => p.RolePrincipal == Role.TANK || p.RoleSecondaire == Role.TANK);
-            bool hasSupport = remaining.Exists(p => p.RolePrincipal == Role.SUPPORT || p.RoleSecondaire == Role.SUPPORT);
-            int dpsCount = remaining.Count(p => p.RolePrincipal == Role.DPS || p.RoleSecondaire == Role.DPS);
+            bool hasTank = false;
+            bool hasSupport = false;
+            int dpsCount = 0;
+
+            foreach (Personnage p in restant)
+            {
+                if (p.RolePrincipal == Role.TANK || p.RoleSecondaire == Role.TANK)
+                {
+                    hasTank = true;
+                }
+
+                if (p.RolePrincipal == Role.SUPPORT || p.RoleSecondaire == Role.SUPPORT)
+                {
+                    hasSupport = true;
+                }
+
+                if (p.RolePrincipal == Role.DPS || p.RoleSecondaire == Role.DPS)
+                {
+                    dpsCount++;
+                }
+            }
 
             return hasTank && hasSupport && dpsCount >= 2;
         }

@@ -9,10 +9,19 @@ using TeamsMaker_METIER.Algorithmes.Outils;
 
 namespace TeamsMaker_METIER.Algorithmes.Realisations
 {
+    /// <summary>
+    /// Algorithme de répartition des personnages en équipes adaptatives basées sur le niveau principal et secondaire.
+    /// </summary>
     internal class RoleAdaptatif : Algorithme
     {
+        //ici 50 comme indiqué dans le doc mais pour avoir un code plus propre
         private const int NivDemande = 50;
 
+        /// <summary>
+        /// Algorithme de répartition des personnages en équipes adaptatives basées sur le niveau principal et secondaire.
+        /// </summary>
+        /// <param name="jeuTest">Fichier de jeu de test contenant la liste de perso</param>
+        /// <returns>Composition "optimale" des equipes selon la méthode décrite dans le document joint</returns>
         public override Repartition Repartir(JeuTest jeuTest)
         {
             Stopwatch stopwatch = new Stopwatch();

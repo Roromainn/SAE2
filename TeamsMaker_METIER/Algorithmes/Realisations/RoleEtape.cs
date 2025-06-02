@@ -11,8 +11,16 @@ using TeamsMaker_METIER.Personnages;
 
 namespace TeamsMaker_METIER.Algorithmes.Realisations
 {
+    /// <summary>
+    /// Algorithme de répartition des personnages par rôle principal.
+    /// </summary>
     internal class RoleEtape : Algorithme
     {
+        /// <summary>
+        /// Répartit les personnages d'un jeu de test en équipes basées sur leur rôle principal.
+        /// </summary>
+        /// <param name="jeuTest">Fichier de jeu de test contenant la liste de perso</param>
+        /// <returns>Composition "optimale" des equipes selon la méthode décrite dans le document joint</returns>
         public override Repartition Repartir(JeuTest jeuTest)
         {
             Stopwatch stopwatch = Stopwatch.StartNew();
@@ -41,22 +49,16 @@ namespace TeamsMaker_METIER.Algorithmes.Realisations
                 }
             }
 
-            // Trier les tanks par proximité au niveau 50
-            TrierParProximite(tanks);
+            //tri de chaque classe en focntion de la distance a 50
+            CalculProxi.TrierParProximite(tanks);
+            CalculProxi.TrierParProximite(supports);
+            CalculProxi.TrierParProximite(dps);
 
-            // Trier les supports par proximité au niveau 50
-            TrierParProximite(supports);
-
-            // Trier les DPS par proximité au niveau 50
-            TrierParProximite(dps);
-
-            // Formation des équipes optimales
+            //composition des equipes
             while (tanks.Count > 0 && supports.Count > 0 && dps.Count >= 2)
             {
-                var tank = tanks[0]; // Équivalent de First()
-                var support = supports[0]; // Équivalent de First()
-
-                // Trouver les 2 DPS qui minimisent le score
+                var tank = tanks[0]; 
+                var support = supports[0]; 
                 var bestDpsPair = Paire.PaireDeDPS(dps, tank.LvlPrincipal, support.LvlPrincipal);
                 if (bestDpsPair == null) break;
 
@@ -78,37 +80,6 @@ namespace TeamsMaker_METIER.Algorithmes.Realisations
             stopwatch.Stop();
             TempsExecution = stopwatch.ElapsedMilliseconds;
             return repartition;
-        }
-
-        // Méthode pour trier une liste par proximité au niveau 50
-        private void TrierParProximite(List<Personnage> personnages)
-        {
-            // Tri par sélection simple
-            for (int i = 0; i < personnages.Count - 1; i++)
-            {
-                int indexMin = i;
-                int scoreMin = Math.Abs(personnages[i].LvlPrincipal - 50);
-
-                for (int j = i + 1; j < personnages.Count; j++)
-                {
-                    int score = Math.Abs(personnages[j].LvlPrincipal - 50);
-                    if (score < scoreMin)
-                    {
-                        scoreMin = score;
-                        indexMin = j;
-                    }
-                }
-
-                // Échanger si nécessaire
-                if (indexMin != i)
-                {
-                    Personnage temp = personnages[i];
-                    personnages[i] = personnages[indexMin];
-                    personnages[indexMin] = temp;
-                }
-            }
-        }
-
-        
+        }    
     }
 }
