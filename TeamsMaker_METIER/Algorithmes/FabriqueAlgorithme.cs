@@ -31,10 +31,11 @@ namespace TeamsMaker_METIER.Algorithmes
             Algorithme res = null;
             switch(nomAlgorithme)
             {
-                case NomAlgorithme.ALGOTEST: res = new AlgorithmeTest(); break;
                 case NomAlgorithme.GLOUTONCOIRSSANT: res = new AlgorithmeGloutonCroissant(); break;
                 case NomAlgorithme.ROLEADAPTATIF: res = new RoleAdaptatif(); break;
                 case NomAlgorithme.ROLESTRAT: res = new RoleStrat(); break;
+                case NomAlgorithme.EXTREMESPREMIER: res = new AlgorithmeExtremesEnPremier(); break;
+                case NomAlgorithme.EQUILIBREPROGRESSIF: res = new AlgorithmeEquilibreProgressif(); break;
             }
             return res;
         }

@@ -11,10 +11,12 @@ namespace TeamsMaker_METIER.Algorithmes
     /// </summary>
     public enum NomAlgorithme
     {
-        ALGOTEST,
         GLOUTONCOIRSSANT,
         ROLEADAPTATIF,
-        ROLESTRAT
+        ROLESTRAT,
+        EXTREMESPREMIER,
+        EQUILIBREPROGRESSIF
+
     }
 
 
@@ -30,10 +32,12 @@ namespace TeamsMaker_METIER.Algorithmes
             string res = "Algorithme non nommé :(";
             switch(algo)
             {
-                case NomAlgorithme.ALGOTEST: res = "Algorithme de test (à supprimer)"; break;
                 case NomAlgorithme.GLOUTONCOIRSSANT: res = "Algo glouton"; break;
                 case NomAlgorithme.ROLEADAPTATIF: res = "Algo adaptatif par rôle"; break;
                 case NomAlgorithme.ROLESTRAT: res = "Algo stratifié par role"; break;
+                case NomAlgorithme.EXTREMESPREMIER: res = "Algorithme extremes en premier"; break;
+                case NomAlgorithme.EQUILIBREPROGRESSIF: res = "Algorithme equilbre progressif"; break;
+
             }
             return res;
         }
