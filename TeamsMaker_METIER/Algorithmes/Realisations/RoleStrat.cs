@@ -15,82 +15,88 @@ namespace TeamsMaker_METIER.Algorithmes.Realisations
     {
      
         
-            public override Repartition Repartir(JeuTest jeuTest)
-            {
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
+
+    public override Repartition Repartir(JeuTest jeuTest)
+        {
+            Stopwatch stopwatch = Stopwatch.StartNew();
             Repartition repartition = new Repartition(jeuTest);
 
-            // Séparation par rôles principaux uniquement
-            List<Personnage> tanks = new List<Personnage>();
-            List<Personnage> supports = new List<Personnage>();
-            List<Personnage> dps = new List<Personnage>();
+            // Tri des personnages par rôle et niveau
+            var tanks = jeuTest.Personnages
+                .Where(p => p.RolePrincipal == Role.TANK)
+                .OrderBy(p => Math.Abs(p.LvlPrincipal - 50))
+                .ToList();
 
-            foreach (Personnage p in jeuTest.Personnages)
+            var supports = jeuTest.Personnages
+                .Where(p => p.RolePrincipal == Role.SUPPORT)
+                .OrderBy(p => Math.Abs(p.LvlPrincipal - 50))
+                .ToList();
+
+            var dps = jeuTest.Personnages
+                .Where(p => p.RolePrincipal == Role.DPS)
+                .OrderBy(p => Math.Abs(p.LvlPrincipal - 50))
+                .ToList();
+
+            // Formation des équipes optimales
+            while (tanks.Count > 0 && supports.Count > 0 && dps.Count >= 2)
             {
-                switch (p.RolePrincipal)
-                {
-                    case Role.TANK:
-                        tanks.Add(p);
-                        break;
-                    case Role.SUPPORT:
-                        supports.Add(p);
-                        break;
-                    case Role.DPS:
-                        dps.Add(p);
-                        break;
-                }
-            }
+                var tank = tanks.First();
+                var support = supports.First();
 
-            // Tri par niveau principal
-            tanks.Sort(new ComparateurPersonnageParNiveauPrincipal());
-            supports.Sort(new ComparateurPersonnageParNiveauPrincipal());
-            dps.Sort(new ComparateurPersonnageParNiveauPrincipal());
+                // Trouver les 2 DPS qui minimisent le score
+                var bestDpsPair = FindBestDpsPair(dps, tank.LvlPrincipal, support.LvlPrincipal);
 
-            // Calcul du nombre maximal d'équipes possibles
-            int maxTeams = Math.Min(
-                Math.Min(tanks.Count, supports.Count),
-                dps.Count / 2
-            );
+                if (bestDpsPair == null) break;
 
-            // Formation des équipes
-            for (int i = 0; i < maxTeams; i++)
-            {
-                Equipe equipe = new Equipe();
+                var equipe = new Equipe();
+                equipe.AjouterMembre(tank);
+                equipe.AjouterMembre(support);
+                equipe.AjouterMembre(bestDpsPair.Item1);
+                equipe.AjouterMembre(bestDpsPair.Item2);
 
-                // Tank
-                if (i < tanks.Count)
-                    equipe.AjouterMembre(tanks[i]);
+                repartition.AjouterEquipe(equipe);
 
-                // Support
-                if (i < supports.Count)
-                    equipe.AjouterMembre(supports[i]);
-
-                // DPS (2 par équipe)
-                int dpsIndex1 = 2 * i;
-                int dpsIndex2 = 2 * i + 1;
-
-                if (dpsIndex1 < dps.Count)
-                    equipe.AjouterMembre(dps[dpsIndex1]);
-
-                if (dpsIndex2 < dps.Count)
-                    equipe.AjouterMembre(dps[dpsIndex2]);
-
-                // Validation que l'équipe est complète et valide
-                if (equipe.Membres.Length == 4 &&
-                    equipe.Membres.Count(m => m.RolePrincipal == Role.TANK) == 1 &&
-                    equipe.Membres.Count(m => m.RolePrincipal == Role.SUPPORT) == 1 &&
-                    equipe.Membres.Count(m => m.RolePrincipal == Role.DPS) == 2)
-                {
-                    repartition.AjouterEquipe(equipe);
-                }
+                // Retirer les membres utilisés
+                tanks.Remove(tank);
+                supports.Remove(support);
+                dps.Remove(bestDpsPair.Item1);
+                dps.Remove(bestDpsPair.Item2);
             }
 
             stopwatch.Stop();
-            this.TempsExecution = stopwatch.ElapsedMilliseconds;
+            TempsExecution = stopwatch.ElapsedMilliseconds;
             return repartition;
         }
+
+        private Tuple<Personnage, Personnage> FindBestDpsPair(List<Personnage> dps, int tankLevel, int supportLevel)
+        {
+            if (dps.Count < 2) return null;
+
+            Tuple<Personnage, Personnage> bestPair = null;
+            double bestScore = double.MaxValue;
+
+            for (int i = 0; i < Math.Min(20, dps.Count); i++) // Limite la recherche pour performance
+            {
+                for (int j = i + 1; j < Math.Min(20, dps.Count); j++)
+                {
+                    double avg = (tankLevel + supportLevel + dps[i].LvlPrincipal + dps[j].LvlPrincipal) / 4.0;
+                    double score = Math.Pow(50 - avg, 2);
+
+                    if (score < bestScore)
+                    {
+                        bestScore = score;
+                        bestPair = Tuple.Create(dps[i], dps[j]);
+                    }
+                }
+            }
+
+            return bestPair ?? Tuple.Create(dps[0], dps[1]);
         }
     }
+
+    }
+
+
+    
 
 

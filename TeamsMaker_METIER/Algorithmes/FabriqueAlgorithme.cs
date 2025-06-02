@@ -34,7 +34,7 @@ namespace TeamsMaker_METIER.Algorithmes
                 case NomAlgorithme.ALGOTEST: res = new AlgorithmeTest(); break;
                 case NomAlgorithme.GLOUTONCOIRSSANT: res = new AlgorithmeGloutonCroissant(); break;
                 case NomAlgorithme.ROLEADAPTATIF: res = new RoleAdaptatif(); break;
-                case NomAlgorithme.ROLESTRAT: res = new RoleAdaptatif(); break;
+                case NomAlgorithme.ROLESTRAT: res = new RoleStrat(); break;
             }
             return res;
         }
