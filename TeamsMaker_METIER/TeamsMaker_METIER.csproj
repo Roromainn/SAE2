@@ -7,11 +7,95 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="JeuxTest\Fichiers\aleatoire_100.jt" />
+    <None Remove="JeuxTest\Fichiers\aleatoire_1000.jt" />
+    <None Remove="JeuxTest\Fichiers\aleatoire_500.jt" />
+    <None Remove="JeuxTest\Fichiers\biais_faible_100.jt" />
+    <None Remove="JeuxTest\Fichiers\biais_faible_1000.jt" />
+    <None Remove="JeuxTest\Fichiers\biais_faible_500.jt" />
+    <None Remove="JeuxTest\Fichiers\biais_fort_100.jt" />
+    <None Remove="JeuxTest\Fichiers\biais_fort_1000.jt" />
+    <None Remove="JeuxTest\Fichiers\biais_fort_500.jt" />
+    <None Remove="JeuxTest\Fichiers\equilibre_100.jt" />
+    <None Remove="JeuxTest\Fichiers\equilibre_1000.jt" />
+    <None Remove="JeuxTest\Fichiers\equilibre_500.jt" />
     <None Remove="JeuxTest\Fichiers\Equilibré1k.jt" />
+    <None Remove="JeuxTest\Fichiers\extremes_100.jt" />
+    <None Remove="JeuxTest\Fichiers\extremes_1000.jt" />
+    <None Remove="JeuxTest\Fichiers\extremes_500.jt" />
+    <None Remove="JeuxTest\Fichiers\hyper_dispersion_100.jt" />
+    <None Remove="JeuxTest\Fichiers\hyper_dispersion_1000.jt" />
+    <None Remove="JeuxTest\Fichiers\hyper_dispersion_500.jt" />
+    <None Remove="JeuxTest\Fichiers\progression_100.jt" />
+    <None Remove="JeuxTest\Fichiers\progression_1000.jt" />
+    <None Remove="JeuxTest\Fichiers\progression_500.jt" />
     <None Remove="JeuxTest\Fichiers\RoleAdaptatif.jt" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="JeuxTest\Fichiers\aleatoire_100.jt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="JeuxTest\Fichiers\aleatoire_1000.jt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="JeuxTest\Fichiers\aleatoire_500.jt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="JeuxTest\Fichiers\biais_faible_100.jt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="JeuxTest\Fichiers\biais_faible_1000.jt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="JeuxTest\Fichiers\biais_faible_500.jt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="JeuxTest\Fichiers\biais_fort_100.jt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="JeuxTest\Fichiers\biais_fort_1000.jt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="JeuxTest\Fichiers\biais_fort_500.jt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="JeuxTest\Fichiers\equilibre_100.jt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="JeuxTest\Fichiers\equilibre_1000.jt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="JeuxTest\Fichiers\equilibre_500.jt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="JeuxTest\Fichiers\extremes_100.jt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="JeuxTest\Fichiers\extremes_1000.jt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="JeuxTest\Fichiers\extremes_500.jt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="JeuxTest\Fichiers\hyper_dispersion_100.jt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="JeuxTest\Fichiers\hyper_dispersion_1000.jt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="JeuxTest\Fichiers\hyper_dispersion_500.jt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="JeuxTest\Fichiers\progression_100.jt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="JeuxTest\Fichiers\progression_1000.jt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="JeuxTest\Fichiers\progression_500.jt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="JeuxTest\Fichiers\RoleAdaptatif.jt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
