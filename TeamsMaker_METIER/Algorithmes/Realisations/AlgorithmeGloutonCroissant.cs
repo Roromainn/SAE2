@@ -10,7 +10,7 @@ using TeamsMaker_METIER.Personnages;
 
 namespace TeamsMaker_METIER.Algorithmes.Realisations
 {
-    internal class AlgorithmeGloutonCroissant : Algorithme
+    public class AlgorithmeGloutonCroissant : Algorithme
     {
 
         public override Repartition Repartir(JeuTest jeuTest)

@@ -55,6 +55,26 @@ namespace TeamsMaker_METIER.Personnages
             this.lvlPrincipal = lvlPrincipal;
             this.lvlSecondaire = lvlSecondaire;
         }
+
+        /// <summary>
+        /// Constructeur depuis une ligne de texte (format : NomClasse;LvlPrincipal;LvlSecondaire)
+        /// </summary>
+        /// <param name="ligne">Ligne du fichier texte</param>
+        public Personnage(string ligne)
+        {
+            var parts = ligne.Split(';');
+            if (parts.Length != 3)
+                throw new ArgumentException($"Ligne invalide : {ligne}");
+
+            string nomClasse = parts[0];
+            if (!Enum.TryParse(nomClasse, true, out Classe classeParsed))
+                throw new ArgumentException($"Classe inconnue : {nomClasse}");
+
+            this.classe = classeParsed;
+            this.lvlPrincipal = int.Parse(parts[1]);
+            this.lvlSecondaire = int.Parse(parts[2]);
+        }
         #endregion
+
     }
 }

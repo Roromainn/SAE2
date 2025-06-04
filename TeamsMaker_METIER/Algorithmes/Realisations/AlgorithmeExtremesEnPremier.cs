@@ -12,7 +12,7 @@ namespace TeamsMaker_METIER.Algorithmes.Realisations
     /// Algorithme de répartition des personnages selon la stratégie "Extrêmes en premier".
     /// Forme des équipes en prenant les 2 personnages les plus faibles et les 2 plus forts restants.
     /// </summary>
-    internal class AlgorithmeExtremesEnPremier : Algorithme
+    public class AlgorithmeExtremesEnPremier : Algorithme
     {
         #region -- Attributs -- 
         // Aucun attribut spécifique pour cet algorithme

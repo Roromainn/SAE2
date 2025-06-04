@@ -16,7 +16,7 @@ namespace TeamsMaker_METIER.Algorithmes.Realisations
     /// <summary>
     /// Fabrique des algorithmes d'équilibrage des équipes.
     /// </summary>
-    internal class AlgorithmeEquilibreProgressif : Algorithme
+    public class AlgorithmeEquilibreProgressif : Algorithme
     {
         #region --- Méthodes ---
 
@@ -64,7 +64,7 @@ namespace TeamsMaker_METIER.Algorithmes.Realisations
                         {
                             meilleurEcart = ecart;
                             meilleurPersonnage = personnage;
-                        }
+                        } 
                     }
 
                     // Ajout du meilleur personnage trouvé à l'équipe
