@@ -26,7 +26,7 @@ namespace TeamsMaker_METIER.Algorithmes
         /// </summary>
         /// <param name="nomAlgorithme">Nom de l'algorithme</param>
         /// <returns></returns>
-        public Algorithme? Creer(NomAlgorithme nomAlgorithme)
+        public Algorithme? Creer(NomAlgorithme nomAlgorithme, Probleme probleme)
         {
             Algorithme res = null;
             switch(nomAlgorithme)
@@ -36,8 +36,20 @@ namespace TeamsMaker_METIER.Algorithmes
                 case NomAlgorithme.ROLESTRAT: res = new RoleEtape(); break;
                 case NomAlgorithme.EXTREMESPREMIER: res = new AlgorithmeExtremesEnPremier(); break;
                 case NomAlgorithme.EQUILIBREPROGRESSIF: res = new AlgorithmeEquilibreProgressif(); break;
+                case NomAlgorithme.NOPT: res = new AlgoNOpt(); break;
+                case NomAlgorithme.NSWAP:
+                    var algoInit = new AlgorithmeGloutonCroissant();
+                    res = new AlgoNSwap(3, algoInit, probleme);
+                    break;
+                
             }
             return res;
+        }
+
+        public Algorithme? Creer(NomAlgorithme nomAlgorithme)
+        {
+            // Appelle la méthode existante avec un problème par défaut
+            return Creer(nomAlgorithme, Probleme.SIMPLE);
         }
         #endregion
     }

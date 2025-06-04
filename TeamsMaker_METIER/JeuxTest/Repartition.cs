@@ -14,7 +14,7 @@ namespace TeamsMaker_METIER.JeuxTest
     public class Repartition
     {
         #region --- Attributs ---
-        private JeuTest jeuTest;        //Jeu de test d'origine
+        public JeuTest jeuTest;        //Jeu de test d'origine
         private List<Equipe> equipes;   //Liste des équipes réalisées
         #endregion
 
