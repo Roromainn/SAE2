@@ -28,6 +28,10 @@ namespace TeamsMaker_METIER.Algorithmes.Realisations
             _probleme = probleme;
         }
 
+        public AlgoNSwap()
+        {
+        }
+
         public override Repartition Repartir(JeuTest jeuTest)
         {
             // Génération de la solution initiale

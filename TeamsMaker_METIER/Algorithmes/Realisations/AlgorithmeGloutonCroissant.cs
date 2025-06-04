@@ -29,6 +29,7 @@ namespace TeamsMaker_METIER.Algorithmes.Realisations
                 }
                 repartition.AjouterEquipe(equipe);
             }
+            
             stopwatch.Stop();
             this.TempsExecution = stopwatch.ElapsedMilliseconds;
             return repartition;
