@@ -1,11 +1,12 @@
 ﻿using System;
+using TeamsMaker_METIER.Personnages.Generation;
 
 class Program
 {
     static void Main(string[] args)
     {
 
-        GenerateurPersonnages.GenererPersonnages(
+        Generateur.GenererPersonnages(
             nbPersonnages: 50,
             mode: "aleatoire"
         );

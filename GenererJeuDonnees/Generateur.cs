@@ -10,7 +10,7 @@ namespace TeamsMaker_METIER.Personnages.Generation
     /// selon différents modes de répartition des niveaux (équilibré, extrêmes, etc.).
     /// Les personnages sont ensuite enregistrés dans un fichier texte dans le dossier de sortie de l'application.
     /// </summary>
-    public class GenerateurPersonnages
+    public class Generateur
     {
         // Générateur de nombres aléatoires
         private static Random random = new Random();

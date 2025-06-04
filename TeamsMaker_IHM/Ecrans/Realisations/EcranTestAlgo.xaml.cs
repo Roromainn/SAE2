@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using OfficeOpenXml;
 using TeamsMaker_IHM.Ecrans.Elements;
 using TeamsMaker_IHM.Fenetres;
 using TeamsMaker_METIER.Personnages.Classes;
@@ -66,12 +67,15 @@ namespace TeamsMaker_IHM.Ecrans.Realisations
             this.DockScore.Visibility = Visibility.Hidden;
         }
 
-        //Lancement des calculs
+        // Replace the problematic line in the LancerCalcul method
         private void LancerCalcul(object sender, RoutedEventArgs e)
         {
             this.vueModele.LancerCalculAlgorithme();
             this.Score.Text = this.vueModele.Score.ToString();
             this.DockScore.Visibility = Visibility.Visible;
+
+            //Pour générer les graphiques a commenter sinon ralenti considérablement l'éxécution
+            TeamsMaker_METIER.Algorithmes.Outils.FichierExcel.GenererRapportExcel("Rapport.xlsx"); 
         }
 
         //Mise à jour de l'affichage
