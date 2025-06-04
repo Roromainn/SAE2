@@ -35,7 +35,7 @@ namespace TeamsMaker_METIER.Algorithmes.Outils
                new AlgorithmeExtremesEnPremier(),
                new AlgorithmeGloutonCroissant(),
                new AlgoNOpt(),
-               new AlgoNSwap(),
+               
 
                // Ajouter d'autres algorithmes ici
            };
