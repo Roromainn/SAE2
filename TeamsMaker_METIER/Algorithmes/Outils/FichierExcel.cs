@@ -11,8 +11,16 @@ using TeamsMaker_METIER.Personnages.Classes;
 
 namespace TeamsMaker_METIER.Algorithmes.Outils
 {
+    /// <summary>
+    /// Classe utilitaire pour générer un rapport Excel des performances des algorithmes de répartition de personnages.
+    /// </summary>
     public class FichierExcel
     {
+        #region--Methodes--
+        /// <summary>
+        /// Génère un rapport Excel des performances des algorithmes de répartition de personnages.
+        /// </summary>
+        /// <param name="fichierSortie">Chemin et nom du fichier</param>
         public static void GenererRapportExcel(string fichierSortie)
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
@@ -35,7 +43,6 @@ namespace TeamsMaker_METIER.Algorithmes.Outils
             {
                 var worksheet = package.Workbook.Worksheets.Add("Performances");
 
-                // En-têtes
                 int col = 1;
                 worksheet.Cells[1, col++].Value = "Taille";
                 worksheet.Cells[1, col++].Value = "Type Répartition";
@@ -45,7 +52,6 @@ namespace TeamsMaker_METIER.Algorithmes.Outils
                     worksheet.Cells[1, col++].Value = algo.GetType().Name;
                 }
 
-                // Corps du rapport
                 int row = 2;
                 foreach (int taille in taillesEchantillons)
                 {
@@ -68,17 +74,17 @@ namespace TeamsMaker_METIER.Algorithmes.Outils
                         row++;
                     }
 
-                    // Ajouter une ligne vide entre les différentes tailles
                     row++;
                 }
-
-                // Formatage automatique
                 worksheet.Cells[worksheet.Dimension.Address].AutoFitColumns();
-
                 package.SaveAs(new FileInfo(fichierSortie));
             }
         }
 
+        /// <summary>
+        /// Obtient une représentation lisible du mode de génération des personnages.
+        /// </summary>
+        /// <param name="mode">type de repartition</param>
         private static string GetLibelleMode(string mode)
         {
             return mode switch
@@ -94,6 +100,12 @@ namespace TeamsMaker_METIER.Algorithmes.Outils
             };
         }
 
+        /// <summary>
+        /// Crée un jeu de test avec un nombre spécifié de personnages et un mode de génération.
+        /// </summary>
+        /// <param name="nombrePersonnages">nombre de perso a générer</param>
+        /// <param name="modeGeneration">type de repartition</param>
+        /// <returns></returns>
         private static JeuTest CreerJeuTest(int nombrePersonnages, string modeGeneration)
         {
             var jeuTest = new JeuTest();
@@ -107,6 +119,12 @@ namespace TeamsMaker_METIER.Algorithmes.Outils
             return jeuTest;
         }
 
+        /// <summary>
+        /// Mesure la performance d'un algorithme de répartition sur un jeu de test donné.
+        /// </summary>
+        /// <param name="algorithme">algorithme dont on veut mesurer la perf</param>
+        /// <param name="jeuTest">le jeu de test sur lequel on va tester l'algo</param>
+        /// <returns>temps en ms</returns>
         private static long MesurerPerformance(Algorithme algorithme, JeuTest jeuTest)
         {
             // Échauffement
@@ -124,6 +142,9 @@ namespace TeamsMaker_METIER.Algorithmes.Outils
         }
     }
 
+    /// <summary>
+    ///// Générateur de personnages pour les tests, permettant de créer des personnages avec des niveaux et classes variés selon un mode de génération spécifié.
+    /// </summary>
     internal class GenerateurPersonnages
     {
         private readonly string modeGeneration;
@@ -135,6 +156,10 @@ namespace TeamsMaker_METIER.Algorithmes.Outils
             this.modeGeneration = modeGeneration;
         }
 
+        /// <summary>
+        /// Génère un personnage en fonction du mode de génération spécifié.
+        /// </summary>
+        /// <returns>Un perso avec les niveau choisis</returns>
         public Personnage Generer()
         {
             var classe = GetClasse();
@@ -145,11 +170,18 @@ namespace TeamsMaker_METIER.Algorithmes.Outils
             );
         }
 
+        /// <summary>
+        /// Obtient une classe de personnage en fonction du compteur et du mode de génération.
+        /// </summary>
+        /// <returns></returns>
         private Classe GetClasse()
         {
             return (Classe)classes.GetValue(counter % classes.Length);
         }
 
+        /// <summary>
+        /// Génère un niveau principal pour le personnage en fonction du mode de génération.
+        /// </summary>
         private int GenererNiveauPrincipal()
         {
             int niveau = modeGeneration switch
@@ -168,6 +200,10 @@ namespace TeamsMaker_METIER.Algorithmes.Outils
             return Math.Clamp(niveau, 1, 100);
         }
 
+        /// <summary>
+        /// Génère un niveau secondaire pour le personnage en fonction de sa classe et du mode de génération.
+        /// </summary>
+        /// <param name="classe">classe du perso</param>
         private int GenererNiveauSecondaire(Classe classe)
         {
             if (!(classe == Classe.BARBARE || classe == Classe.PALADIN || classe == Classe.DRUIDE))
@@ -182,8 +218,9 @@ namespace TeamsMaker_METIER.Algorithmes.Outils
                 "aleatoire" => 1 + (counter % 100),
                 "progression" => 1 + (counter % 100),
                 "identiques" => 50,
-                _ => 20 + (counter % 20) // 20-39 par défaut
+                _ => 20 + (counter % 20) 
             };
         }
+        #endregion
     }
 }

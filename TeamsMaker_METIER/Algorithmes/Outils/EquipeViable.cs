@@ -13,6 +13,7 @@ namespace TeamsMaker_METIER.Algorithmes.Outils
     /// </summary>
     internal static class EquipeViable
     {
+        #region--Méthodes--
         /// <summary>
         /// Vérifie si une équipe est viable en fonction des rôles des personnages restants.
         /// </summary>
@@ -44,5 +45,6 @@ namespace TeamsMaker_METIER.Algorithmes.Outils
 
             return hasTank && hasSupport && dpsCount >= 2;
         }
+        #endregion
     }
 }

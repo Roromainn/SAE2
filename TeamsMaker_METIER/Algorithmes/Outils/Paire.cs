@@ -10,8 +10,9 @@ namespace TeamsMaker_METIER.Algorithmes.Outils
     /// <summary>
     /// Classe utilitaire pour former des paires de DPS à partir d'une liste de personnages.
     /// </summary>
-    internal static class Paire
+    public static class Paire
     {
+        #region--Méthodes--
         /// <summary>
         /// Forme une paire de DPS à partir d'une liste de personnages, en cherchant la paire dont le niveau moyen est le plus proche de 50.
         /// </summary>
@@ -29,7 +30,7 @@ namespace TeamsMaker_METIER.Algorithmes.Outils
 
             int limiteRecherche = Math.Min(20, dps.Count);
 
-            // Limiter la recherche aux 20 premiers DPS pour accelerer la recherche (déterminé de maniere empirique)
+            // Limiter la recherche aux 20 premiers DPS pour accelerer la recherche (déterminé de maniere arbitraire)
             for (int i = 0; i < limiteRecherche; i++)
             {
                 for (int j = i + 1; j < limiteRecherche; j++)
@@ -53,5 +54,6 @@ namespace TeamsMaker_METIER.Algorithmes.Outils
 
             return bestPair;
         }
+        #endregion
     }
 }

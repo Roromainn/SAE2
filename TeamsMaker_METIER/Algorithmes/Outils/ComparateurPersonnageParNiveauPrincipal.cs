@@ -12,6 +12,7 @@ namespace TeamsMaker_METIER.Algorithmes.Outils
     /// </summary>
     internal class ComparateurPersonnageParNiveauPrincipal : Comparer<Personnage>
     {
+        #region--Methodes--
         /// <summary>
         /// Compare deux personnages en fonction de leur niveau principal.
         /// </summary>
@@ -22,6 +23,8 @@ namespace TeamsMaker_METIER.Algorithmes.Outils
         {
             return x.LvlPrincipal - y.LvlPrincipal;
         }
-        
+        #endregion
+
+
     }
 }

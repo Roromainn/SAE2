@@ -15,12 +15,18 @@ namespace TeamsMaker_METIER.Algorithmes.Realisations
     /// </summary>
     public class AlgoNOpt : Algorithme
     {
+        #region--Attributs--
         // Paramètres de configuration
         private readonly int _n;                  // Nombre d'équipes à réoptimiser
+        #endregion
+
+        #region--Proprietes--
         private readonly Algorithme _algoInitial; // Algorithme pour la solution initiale
         private const int MaxIterations = 50;     // Limite anti-boucle infinie
         private readonly Probleme _probleme;
+        #endregion
 
+        #region--Constructeurs--
         /// <summary>
         /// Constructeur de l'algorithme N-Opt.
         /// </summary>
@@ -31,7 +37,9 @@ namespace TeamsMaker_METIER.Algorithmes.Realisations
             _probleme = probleme;
         }
         public AlgoNOpt() : this(3, new AlgorithmeEquilibreProgressif(), Probleme.SIMPLE) { }
+        #endregion
 
+        #region--Méthodes--
         /// <summary>
         /// Répartit les personnages d'un jeu de test en équipes en utilisant l'algorithme N-Opt.
         /// </summary>
@@ -102,6 +110,8 @@ namespace TeamsMaker_METIER.Algorithmes.Realisations
 
             return merged;
         }
+        #endregion
+
     }
 }
 

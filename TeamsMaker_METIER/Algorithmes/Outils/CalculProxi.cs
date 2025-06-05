@@ -12,6 +12,7 @@ namespace TeamsMaker_METIER.Algorithmes.Outils
     /// </summary>
     public static class CalculProxi
     {
+        #region--Méthodes--
         /// <summary>
         /// Trie une liste de personnages en fonction de leur niveau principal, en cherchant à les rapprocher du niveau 50.
         /// </summary>
@@ -41,5 +42,6 @@ namespace TeamsMaker_METIER.Algorithmes.Outils
                 }
             }
         }
+        #endregion
     }
 }
