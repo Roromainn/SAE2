@@ -32,7 +32,7 @@ namespace TeamsMaker_METIER.Algorithmes.Realisations
         {
             // Génération de la solution initiale
             var repartition = _algoInitial.Repartir(jeuTest);
-            repartition.LancerEvaluation(_probleme);     //////
+            repartition.LancerEvaluation(_probleme);     
             bool improved;
             int iterations = 0;
 

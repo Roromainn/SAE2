@@ -13,68 +13,91 @@ namespace TeamsMaker_METIER.Algorithmes.Outils
 {
     public class FichierExcel
     {
-        
         public static void GenererRapportExcel(string fichierSortie)
         {
-            // Set the license context for EPPlus
-            if (ExcelPackage.LicenseContext == LicenseContext.NonCommercial)
-            {
-                // Déjà configuré
-            }
-            else
-            {
-                ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            }
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
             // Configuration des tests
             int[] taillesEchantillons = { 100, 500, 1000, 5000, 10000 };
-            var algorithmes = new List<Algorithme>
-           {
-               new RoleEtape(),
-               new RoleAdaptatif(),
-               new AlgorithmeEquilibreProgressif(),
-               new AlgorithmeExtremesEnPremier(),
-               new AlgorithmeGloutonCroissant(),
-               new AlgoNOpt(),
-               
+            string[] modesGeneration = { "equilibre", "extremes", "biais_fort", "biais_faible", "aleatoire", "progression", "identiques" };
 
-               // Ajouter d'autres algorithmes ici
-           };
+            var algorithmes = new List<Algorithme>
+            {
+                new RoleEtape(),
+                new RoleAdaptatif(),
+                new AlgorithmeEquilibreProgressif(),
+                new AlgorithmeExtremesEnPremier(),
+                new AlgorithmeGloutonCroissant(),
+                new AlgoNOpt(),
+            };
 
             using (var package = new ExcelPackage())
             {
                 var worksheet = package.Workbook.Worksheets.Add("Performances");
 
                 // En-têtes
-                worksheet.Cells[1, 1].Value = "Taille échantillon";
-                for (int i = 0; i < algorithmes.Count; i++)
+                int col = 1;
+                worksheet.Cells[1, col++].Value = "Taille";
+                worksheet.Cells[1, col++].Value = "Type Répartition";
+
+                foreach (var algo in algorithmes)
                 {
-                    worksheet.Cells[1, i + 2].Value = algorithmes[i].GetType().Name;
+                    worksheet.Cells[1, col++].Value = algo.GetType().Name;
                 }
 
                 // Corps du rapport
-                for (int row = 0; row < taillesEchantillons.Length; row++)
+                int row = 2;
+                foreach (int taille in taillesEchantillons)
                 {
-                    int taille = taillesEchantillons[row];
-                    JeuTest jeuTest = CreerJeuTest(taille);
-
-                    worksheet.Cells[row + 2, 1].Value = taille;
-
-                    for (int col = 0; col < algorithmes.Count; col++)
+                    foreach (string mode in modesGeneration)
                     {
-                        var temps = MesurerPerformance(algorithmes[col], jeuTest);
-                        worksheet.Cells[row + 2, col + 2].Value = temps;
+                        col = 1;
+                        JeuTest jeuTest = CreerJeuTest(taille, mode);
+
+                        // Informations sur la configuration
+                        worksheet.Cells[row, col++].Value = taille;
+                        worksheet.Cells[row, col++].Value = GetLibelleMode(mode);
+
+                        // Résultats des algorithmes
+                        foreach (var algo in algorithmes)
+                        {
+                            var temps = MesurerPerformance(algo, jeuTest);
+                            worksheet.Cells[row, col++].Value = temps;
+                        }
+
+                        row++;
                     }
+
+                    // Ajouter une ligne vide entre les différentes tailles
+                    row++;
                 }
 
-                // Sauvegarde
+                // Formatage automatique
+                worksheet.Cells[worksheet.Dimension.Address].AutoFitColumns();
+
                 package.SaveAs(new FileInfo(fichierSortie));
             }
         }
 
-        private static JeuTest CreerJeuTest(int nombrePersonnages)
+        private static string GetLibelleMode(string mode)
+        {
+            return mode switch
+            {
+                "equilibre" => "Équilibré (45-55)",
+                "extremes" => "Extrêmes (1-10 ou 90-99)",
+                "biais_fort" => "Biaisé fort (70-99)",
+                "biais_faible" => "Biaisé faible (1-30)",
+                "aleatoire" => "Aléatoire (1-99)",
+                "progression" => "Progression (1-99)",
+                "identiques" => "Identiques (50)",
+                _ => mode
+            };
+        }
+
+        private static JeuTest CreerJeuTest(int nombrePersonnages, string modeGeneration)
         {
             var jeuTest = new JeuTest();
-            var generateur = new GenerateurPersonnages();
+            var generateur = new GenerateurPersonnages(modeGeneration);
 
             for (int i = 0; i < nombrePersonnages; i++)
             {
@@ -91,7 +114,7 @@ namespace TeamsMaker_METIER.Algorithmes.Outils
 
             // Mesure
             var chrono = Stopwatch.StartNew();
-            for (int i = 0; i < 5; i++) // Moyenne sur 5 runs
+            for (int i = 0; i < 5; i++)
             {
                 algorithme.Repartir(jeuTest);
             }
@@ -103,12 +126,18 @@ namespace TeamsMaker_METIER.Algorithmes.Outils
 
     internal class GenerateurPersonnages
     {
-        private readonly Random random = new Random();
+        private readonly string modeGeneration;
+        private int counter = 0;
         private readonly Array classes = Enum.GetValues(typeof(Classe));
+
+        public GenerateurPersonnages(string modeGeneration)
+        {
+            this.modeGeneration = modeGeneration;
+        }
 
         public Personnage Generer()
         {
-            var classe = (Classe)classes.GetValue(random.Next(classes.Length));
+            var classe = GetClasse();
             return new Personnage(
                 classe: classe,
                 lvlPrincipal: GenererNiveauPrincipal(),
@@ -116,24 +145,44 @@ namespace TeamsMaker_METIER.Algorithmes.Outils
             );
         }
 
+        private Classe GetClasse()
+        {
+            return (Classe)classes.GetValue(counter % classes.Length);
+        }
+
         private int GenererNiveauPrincipal()
         {
-            // Distribution normale centrée sur 50
-            double u1 = 1.0 - random.NextDouble();
-            double u2 = 1.0 - random.NextDouble();
-            double randStdNormal = Math.Sqrt(-2.0 * Math.Log(u1)) * Math.Sin(2.0 * Math.PI * u2);
-            int niveau = (int)(50 + randStdNormal * 15);
+            int niveau = modeGeneration switch
+            {
+                "equilibre" => 45 + (counter % 11), // 45-55
+                "extremes" => (counter % 2 == 0) ? 1 + (counter % 10) : 90 + (counter % 10),
+                "biais_fort" => 70 + (counter % 30), // 70-99
+                "biais_faible" => 1 + (counter % 30), // 1-30
+                "aleatoire" => 1 + (counter % 100), // 1-100
+                "progression" => 1 + (counter % 100), // 1-100
+                "identiques" => 50, // Fixe 50
+                _ => 50 // Par défaut
+            };
 
+            counter++;
             return Math.Clamp(niveau, 1, 100);
         }
 
         private int GenererNiveauSecondaire(Classe classe)
         {
-            // Seules certaines classes ont un niveau secondaire
-            return classe switch
+            if (!(classe == Classe.BARBARE || classe == Classe.PALADIN || classe == Classe.DRUIDE))
+                return 0;
+
+            return modeGeneration switch
             {
-                Classe.BARBARE or Classe.PALADIN or Classe.DRUIDE => random.Next(10, 40),
-                _ => 0
+                "equilibre" => 45 + (counter % 11),
+                "extremes" => (counter % 2 == 0) ? 1 + (counter % 10) : 90 + (counter % 10),
+                "biais_fort" => 70 + (counter % 30),
+                "biais_faible" => 1 + (counter % 30),
+                "aleatoire" => 1 + (counter % 100),
+                "progression" => 1 + (counter % 100),
+                "identiques" => 50,
+                _ => 20 + (counter % 20) // 20-39 par défaut
             };
         }
     }
