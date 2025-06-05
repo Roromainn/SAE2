@@ -21,34 +21,37 @@ namespace TeamsMaker_METIER.Algorithmes.Realisations
         private const int MaxIterations = 100;    // Limite anti-boucle infinie
         private const int MaxNeighbors = 10;      // Nombre de voisins générés par itération
 
+        #region--Constructeurs ---
         public AlgoNSwap(int n, Algorithme algoInitial, Probleme probleme)
         {
             _n = n;
             _algoInitial = algoInitial ?? throw new ArgumentNullException("L'algorithme initial est requis");
             _probleme = probleme;
         }
+        #endregion
 
+        #region--Methodes ---
+        /// <summary>
+        /// Répartit les personnages d'un jeu de test en équipes en utilisant l'algorithme N-Swap
+        /// </summary>
+        /// <param name="jeuTest">Fichier de jeu de test contenant la liste de perso</param>
+        /// <returns>Composition "optimale" des equipes selon la méthode décrite dans le document joint</returns>
         public override Repartition Repartir(JeuTest jeuTest)
         {
-            // Génération de la solution initiale
             var repartition = _algoInitial.Repartir(jeuTest);
             repartition.LancerEvaluation(_probleme);     
             bool improved;
             int iterations = 0;
 
-            // Processus d'optimisation itérative
             do
             {
                 improved = false;
-                // Génération des solutions voisines
                 var neighbors = GenerateNeighbors(repartition, _n, jeuTest);
 
                 // Évaluation de chaque voisin
                 foreach (var neighbor in neighbors)
                 {
-                    // Utilisation du problème stocké dans la classe
                     neighbor.LancerEvaluation(_probleme);
-                    //neighbor.Evaluer(_probleme);
 
                     // Si amélioration, on conserve cette solution
                     if (neighbor.Score < repartition.Score)
@@ -59,7 +62,7 @@ namespace TeamsMaker_METIER.Algorithmes.Realisations
                     }
                 }
                 iterations++;
-            } while (improved && iterations < MaxIterations); // Critère d'arrêt
+            } while (improved && iterations < MaxIterations); 
 
             return repartition;
         }
@@ -84,7 +87,6 @@ namespace TeamsMaker_METIER.Algorithmes.Realisations
                 var neighbor = CloneRepartition(original, jeuTest);
                 var teams = neighbor.Equipes.Where(e => e.Membres.Length == 4).ToList();
 
-                // Réalisation de 'n' swaps
                 for (int s = 0; s < n; s++)
                 {
                     if (teams.Count < 2) break;
@@ -123,23 +125,20 @@ namespace TeamsMaker_METIER.Algorithmes.Realisations
                             newTeam2.AjouterMembre(team2.Membres[j]);
                     }
 
-                    // CORRECTION CRITIQUE : Gestion des index introuvables
+                    //Gestion des index introuvables
                     var teamsList = neighbor.Equipes.ToList();
                     int pos1 = teamsList.IndexOf(team1);
                     int pos2 = teamsList.IndexOf(team2);
 
-                    // Vérification que les équipes ont été trouvées
                     if (pos1 == -1 || pos2 == -1) continue;
 
                     teamsList[pos1] = newTeam1;
                     teamsList[pos2] = newTeam2;
 
-                    // Recréation sécurisée de la répartition
                     neighbor = new Repartition(jeuTest);
                     foreach (var team in teamsList)
                         neighbor.AjouterEquipe(team);
 
-                    // Mise à jour de la liste des équipes
                     teams = neighbor.Equipes.Where(e => e.Membres.Length == 4).ToList();
                 }
 
@@ -158,13 +157,13 @@ namespace TeamsMaker_METIER.Algorithmes.Realisations
             foreach (var team in original.Equipes)
             {
                 var newTeam = new Equipe();
-                // Copie de tous les membres
                 foreach (var member in team.Membres)
                     newTeam.AjouterMembre(member);
                 clone.AjouterEquipe(newTeam);
             }
-            //clone.Evaluer(original.Probleme);
             return clone;
         }
+        #endregion
+
     }
 }

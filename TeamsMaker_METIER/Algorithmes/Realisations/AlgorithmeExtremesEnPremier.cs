@@ -14,17 +14,6 @@ namespace TeamsMaker_METIER.Algorithmes.Realisations
     /// </summary>
     public class AlgorithmeExtremesEnPremier : Algorithme
     {
-        #region -- Attributs -- 
-        // Aucun attribut spécifique pour cet algorithme
-        #endregion
-
-        #region -- Propriétés -- 
-        // Pas de propriétés spécifiques non plus
-        #endregion
-
-        #region -- Constructeurs -- 
-        // Utilisation du constructeur par défaut implicite
-        #endregion
 
         #region -- Méthodes -- 
 
@@ -77,5 +66,6 @@ namespace TeamsMaker_METIER.Algorithmes.Realisations
         }
 
         #endregion
+
     }
 }

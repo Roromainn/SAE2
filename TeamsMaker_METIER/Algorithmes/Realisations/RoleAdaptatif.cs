@@ -14,9 +14,12 @@ namespace TeamsMaker_METIER.Algorithmes.Realisations
     /// </summary>
     internal class RoleAdaptatif : Algorithme
     {
+        #region--Constantes--
         //ici 50 comme indiqué dans le doc mais pour avoir un code plus propre
         private const int NivDemande = 50;
+        #endregion
 
+        #region --Méthodes--
         /// <summary>
         /// Algorithme de répartition des personnages en équipes adaptatives basées sur le niveau principal et secondaire.
         /// </summary>
@@ -100,7 +103,7 @@ namespace TeamsMaker_METIER.Algorithmes.Realisations
 
                         if (distance < scoreDps1)
                         {
-                            // Nouveau meilleur, l'ancien meilleur --> 2ème
+                            // Nouveau meilleur, l'ancien meilleur devient 2ème
                             meilleurDps2 = meilleurDps1;
                             scoreDps2 = scoreDps1;
                             meilleurDps1 = p;
@@ -129,7 +132,7 @@ namespace TeamsMaker_METIER.Algorithmes.Realisations
             this.TempsExecution = stopwatch.ElapsedMilliseconds;
             return repartition;
         }
-
+        #endregion
 
     }
 }

@@ -52,5 +52,6 @@ namespace TeamsMaker_METIER.Algorithmes
             return Creer(nomAlgorithme, Probleme.SIMPLE);
         }
         #endregion
+
     }
 }

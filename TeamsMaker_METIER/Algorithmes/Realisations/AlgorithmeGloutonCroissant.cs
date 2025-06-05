@@ -10,9 +10,17 @@ using TeamsMaker_METIER.Personnages;
 
 namespace TeamsMaker_METIER.Algorithmes.Realisations
 {
+    /// <summary>
+    /// Algorithme de répartition des personnages en équipes en utilisant une approche gloutonne croissante.
+    /// </summary>
     public class AlgorithmeGloutonCroissant : Algorithme
     {
-
+        #region --Méthodes--
+        /// <summary>
+        /// Répartit les personnages d'un jeu de test en équipes en utilisant une approche gloutonne croissante.
+        /// </summary>
+        /// <param name="jeuTest">>Fichier de jeu de test contenant la liste de perso</param>
+        /// <returns>Composition "optimale" des equipes selon la méthode décrite dans le document joint</returns>
         public override Repartition Repartir(JeuTest jeuTest)
         {
             Stopwatch stopwatch = new Stopwatch();
@@ -34,5 +42,6 @@ namespace TeamsMaker_METIER.Algorithmes.Realisations
             this.TempsExecution = stopwatch.ElapsedMilliseconds;
             return repartition;
         }
+        #endregion
     }
 }

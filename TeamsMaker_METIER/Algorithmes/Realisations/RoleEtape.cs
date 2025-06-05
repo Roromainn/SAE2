@@ -16,6 +16,7 @@ namespace TeamsMaker_METIER.Algorithmes.Realisations
     /// </summary>
     internal class RoleEtape : Algorithme
     {
+        #region --Méthodes--
         /// <summary>
         /// Répartit les personnages d'un jeu de test en équipes basées sur leur rôle principal.
         /// </summary>
@@ -80,6 +81,7 @@ namespace TeamsMaker_METIER.Algorithmes.Realisations
             stopwatch.Stop();
             TempsExecution = stopwatch.ElapsedMilliseconds;
             return repartition;
-        }    
+        }
+        #endregion
     }
 }

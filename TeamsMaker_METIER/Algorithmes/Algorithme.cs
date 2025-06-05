@@ -16,13 +16,7 @@ namespace TeamsMaker_METIER.Algorithmes
         private long tempsExecution = -1;    //Temps d'exécution de l'algorithme
         #endregion
 
-        /// <summary>
-        /// Lance la répartition des personnages d'un jeu de test donnée
-        /// </summary>
-        /// <param name="jeuTest">Jeu de test</param>
-        /// <returns>La répartition</returns>
-        public abstract Repartition Repartir(JeuTest jeuTest);
-
+        #region--Proprietes ---
         /// <summary>
         /// Temps d'exécution de l'algorithme
         /// </summary>
@@ -31,5 +25,17 @@ namespace TeamsMaker_METIER.Algorithmes
             get => this.tempsExecution;
             protected set => this.tempsExecution = value;
         }
+        #endregion
+
+        #region--Methodes ---
+
+        /// <summary>
+        /// Lance la répartition des personnages d'un jeu de test donnée
+        /// </summary>
+        /// <param name="jeuTest">Jeu de test</param>
+        /// <returns>La répartition</returns>
+        public abstract Repartition Repartir(JeuTest jeuTest);
+        #endregion
+
     }
 }

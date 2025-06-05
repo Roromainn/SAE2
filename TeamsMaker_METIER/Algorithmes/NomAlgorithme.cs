@@ -17,9 +17,7 @@ namespace TeamsMaker_METIER.Algorithmes
         EXTREMESPREMIER,
         EQUILIBREPROGRESSIF,
         NSWAP,
-        NOPT,
-        ALGOTEST,
-
+        NOPT
     }
 
 
@@ -36,13 +34,14 @@ namespace TeamsMaker_METIER.Algorithmes
             switch(algo)
             {
                 
-                case NomAlgorithme.GLOUTONCOIRSSANT: res = "Algo glouton"; break;
-                case NomAlgorithme.ROLEADAPTATIF: res = "Algo adaptatif par rôle"; break;
-                case NomAlgorithme.ROLESTRAT: res = "Algo stratifié par role"; break;
-                case NomAlgorithme.EXTREMESPREMIER: res = "Algorithme extremes en premier"; break;
-                case NomAlgorithme.EQUILIBREPROGRESSIF: res = "Algorithme equilbre progressif"; break;
-                case NomAlgorithme.NSWAP: res = "Algorithmes Nswap"; break;
-                case NomAlgorithme.NOPT: res = "Algorithme NOPT"; break;
+                case NomAlgorithme.GLOUTONCOIRSSANT: res = "Algo glouton(niv 1)"; break;
+                case NomAlgorithme.EXTREMESPREMIER: res = "Algorithme extremes en premier(niv 1)"; break;
+                case NomAlgorithme.EQUILIBREPROGRESSIF: res = "Algorithme equilbre progressif(niv 1)"; break;
+                case NomAlgorithme.NSWAP: res = "Algorithmes Nswap(niv 1)"; break;
+                case NomAlgorithme.NOPT: res = "Algorithme NOPT(niv 1)"; break;
+                case NomAlgorithme.ROLESTRAT: res = "Algo stratifié par role(niv 2)"; break;
+                case NomAlgorithme.ROLEADAPTATIF: res = "Algo adaptatif par rôle(niv 3)"; break;
+
             }
             return res;
         }
