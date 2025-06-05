@@ -13,9 +13,6 @@ namespace TeamsMaker_METIER.Algorithmes.Realisations
     /// Cette méthode forme les équipes en ajoutant un personnage à la fois, en choisissant
     /// celui qui rapproche la moyenne des niveaux des membres de l'équipe la plus proche possible de 50.
     /// </summary>
-    /// <summary>
-    /// Fabrique des algorithmes d'équilibrage des équipes.
-    /// </summary>
     public class AlgorithmeEquilibreProgressif : Algorithme
     {
         #region --- Méthodes ---
@@ -37,16 +34,11 @@ namespace TeamsMaker_METIER.Algorithmes.Realisations
             // Tant qu'il reste assez de personnages pour former une équipe complète (4 membres)
             while (listeRestante.Count >= 4)
             {
-                // Création d'une nouvelle équipe vide
                 Equipe equipe = new Equipe();
-
-                // Initialisation de la moyenne de l'équipe (à 0 car l'équipe est vide au départ)
                 float moyenneEquipe = 0;
 
-                // Ajouter les membres un par un à l'équipe jusqu'à ce qu'elle ait 4 membres
                 while (equipe.Membres.Length < 4)
                 {
-                    // Variables pour choisir le personnage le mieux adapté pour la moyenne
                     Personnage meilleurPersonnage = null;
                     float meilleurEcart = float.MaxValue;
 
@@ -55,33 +47,20 @@ namespace TeamsMaker_METIER.Algorithmes.Realisations
                     {
                         // Calcul de la nouvelle moyenne si ce personnage est ajouté
                         float nouvelleMoyenne = (moyenneEquipe * equipe.Membres.Length + personnage.LvlPrincipal) / (equipe.Membres.Length + 1);
-
-                        // Calcul de l'écart entre la nouvelle moyenne et 50
                         float ecart = Math.Abs(nouvelleMoyenne - 50);
-
-                        // Si cet écart est plus petit que l'écart précédent, ce personnage devient le meilleur choix
+                        // Si écart est plus petit que l'écart précédent le perso devient meilleur choix
                         if (ecart < meilleurEcart)
                         {
                             meilleurEcart = ecart;
                             meilleurPersonnage = personnage;
                         } 
                     }
-
-                    // Ajout du meilleur personnage trouvé à l'équipe
                     equipe.AjouterMembre(meilleurPersonnage);
-
-                    // Mise à jour de la moyenne de l'équipe après ajout du personnage
                     moyenneEquipe = (moyenneEquipe * (equipe.Membres.Length - 1) + meilleurPersonnage.LvlPrincipal) / equipe.Membres.Length;
-
-                    // Retrait du personnage de la liste des personnages restants
                     listeRestante.Remove(meilleurPersonnage);
                 }
-
-                // Ajout de l'équipe complète à la répartition des équipes
                 repartition.AjouterEquipe(equipe);
             }
-
-            // Retourne la répartition des équipes une fois que toutes sont formées
             return repartition;
         }
 

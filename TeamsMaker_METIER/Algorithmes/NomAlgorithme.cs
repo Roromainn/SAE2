@@ -23,6 +23,7 @@ namespace TeamsMaker_METIER.Algorithmes
 
     public static class NomAlgorithmeExt
     {
+        #region--Méthodes--
         /// <summary>
         /// Affichage du nom de l'algorithme
         /// </summary>
@@ -45,5 +46,6 @@ namespace TeamsMaker_METIER.Algorithmes
             }
             return res;
         }
+        #endregion
     }
 }
